@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Meu configuration.nix</title>
+    <style>
+        body {
+            background-color: #1e1e1e;
+            color: #d4d4d4;
+            font-family: monospace;
+            padding: 2rem;
+        }
+        pre {
+            white-space: pre-wrap;       /* Mantém quebras de linha */
+            word-wrap: break-word;
+        }
+    </style>
+</head>
+<body>
+    <h1>Meu configuration.nix</h1>
+    <pre id="config">Carregando...</pre>
+
+    <script>
+        fetch('configuration.txt')               // Arquivo que será mostrado
+            .then(response => response.text())
+            .then(text => {
+                document.getElementById('config').textContent = text;
+            })
+            .catch(err => {
+                document.getElementById('config').textContent = "Erro ao carregar o arquivo.";
+                console.error(err);
+            });
+    </script>
+</body>
+</html>

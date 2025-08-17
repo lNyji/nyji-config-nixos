@@ -7,14 +7,24 @@
   imports = [ ./hardware-configuration.nix ];
 
   ###############################################################################
-  # Usuários e permissões                                                       #
+  # Usuários e permissões                 !!!ATENÇÃO!!!                         #
                                                                                 #
   users.users.nyji = {                                                          #
-    isNormalUser = true;                       # Usuário normal                 #
+    isNormalUser = true;                       # Usuário normal                 #####################################################################################
     extraGroups = [ "wheel" "networkmanager" "docker" ];  # Permissões extras   #
     password = "11"                                                             #
   };                                                                            #
   ###############################################################################
+
+  #########################################
+  # Bootloader       !!!ATENÇÃO!!!        #
+                                          #
+  boot.loader.grub.enable = true;         #
+  boot.loader.grub.device = "/dev/sda";   ###########################################################################################################################
+  boot.loader.grub.useOSProber = true;    #
+                                          #
+  #########################################
+
 
   users.defaultUserShell = pkgs.zsh;
 
@@ -29,7 +39,7 @@
                                                     #  
   };                                                #
   ###################################################
-  
+
   ###################################################
   # Rede, Timezone e Localização                    #
                                                     #
@@ -61,65 +71,68 @@
   services.flatpak.enable = true                    #
   ###################################################
 
-  ###################################################
-  # Pacotes do sistema (uso diário + dev)
-  ###################################################
-  environment.systemPackages = with pkgs; [
-
-    # Navegadores
-
-    firefox
-
-
-    # Ferramentas básicas
-
-    git
-    wget
-    curl
-    htop
-    unzip
-    zip
-    jq
-    fd
-    ripgrep
-    tree
-    fastfetch
-
-    #################################################
-    #           Dev                                 #
-                                                    #
-                                                    #
-    ### Ferramentas de desenvolvimento              #
-    neovim                                          #
-    vscode                                          #
-    docker                                          #
-    docker-compose                                  #
-    podman                                          #
-                                                    #
-                                                    #
-    ### Linguagens                                  #
-                                                    #
-    python3                                         #
-    python3Packages.pip                             #
-    nodejs                                          #
-    rustc                                           #
-    cargo                                           #
-    go                                              #
-    gcc                                             #
-    gdb                                             #
-    openjdk                                         #
-                                                    #
-                                                    #
-    ### Ferramentas extras dev                      #
-                                                    #
-    tmux                                            #
-    make                                            #
-    cmake                                           #
-    git-delta                                       #
-                                                    #
-                                                    #
-    #################################################
-  ];
+  #################################################################################
+  # Pacotes do sistema (uso diário + dev)                                         #
+                                                                                  #
+  environment.systemPackages = with pkgs; [                                       #
+                                                                                  #
+    # Navegadores                                                                 #
+                                                                                  #
+    firefox                                                                       #
+                                                                                  #
+    #################################################                             #
+    # Ferramentas básicas                           #                             #
+                                                    #                             #
+    git                                             #                             #
+    wget                                            #                             #
+    curl                                            #                             #
+    htop                                            #                             #
+    unzip                                           #                             #
+    zip                                             #                             #
+    jq                                              #                             #
+    fd                                              #                             #
+    ripgrep                                         #                             #
+    tree                                            #                             #
+    fastfetch                                       #                             #
+                                                    #                             #
+    #################################################                             #
+                                                                                  #
+    #################################################                             #
+    #           Dev                                 #                             #
+                                                    #                             #
+                                                    #                             #
+    ### Ferramentas de desenvolvimento              #                             #
+    neovim                                          #                             #
+    vscode                                          #                             #
+    docker                                          #                             #
+    docker-compose                                  #                             #
+    podman                                          #                             #
+                                                    #                             #
+                                                    #                             #
+    ### Linguagens                                  #                             #
+                                                    #                             #
+    python3                                         #                             #
+    python3Packages.pip                             #                             #
+    nodejs                                          #                             #
+    rustc                                           #                             #
+    cargo                                           #                             #
+    go                                              #                             #
+    gcc                                             #                             #
+    gdb                                             #                             #
+    openjdk                                         #                             #
+                                                    #                             #
+                                                    #                             #
+    ### Ferramentas extras dev                      #                             #
+                                                    #                             #
+    tmux                                            #                             #
+    make                                            #                             #
+    cmake                                           #                             #
+    git-delta                                       #                             #
+                                                    #                             #
+                                                    #                             #
+    #################################################                             #
+  ];                                                                              #
+  #################################################################################
 
   ###################################################
   # Terminal e shell
@@ -150,9 +163,9 @@
   };
 
   ###################################################
-  # Serviços desnecessários desligados
+  # Impressora desligadas                           #
   ###################################################
   services.printing.enable = false                      # se não for usar impressora
   services.cups.enable = false                      
-
+x
 }
