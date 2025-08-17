@@ -1,0 +1,158 @@
+{ config, pkgs, ... }:
+
+{
+  ###################################################
+  # Importação da configuração de hardware
+  ###################################################
+  imports = [ ./hardware-configuration.nix ];
+
+  ###############################################################################
+  # Usuários e permissões                                                       #
+                                                                                #
+  users.users.nyji = {                                                          #
+    isNormalUser = true;                       # Usuário normal                 #
+    extraGroups = [ "wheel" "networkmanager" "docker" ];  # Permissões extras   #
+    password = "11"                                                             #
+  };                                                                            #
+  ###############################################################################
+
+  users.defaultUserShell = pkgs.zsh;
+
+  ###################################################
+  # Ambiente Desktop                                #
+  services.xserver = {                              #
+                                                    #
+    enable = true;                                  #
+    displayManager.gdm.enable = true;               #
+    desktopManager.gnome.enable = true;             #
+                                                    #
+                                                    #  
+  };                                                #
+  ###################################################
+  
+  ###################################################
+  # Rede, Timezone e Localização                    #
+                                                    #
+  networking.networkmanager.enable = true           #
+  time.timeZone = "America/Sao_Paulo"               #
+  i18n.defaultLocale = "pt_BR.UTF-8"                #
+                                                    #
+  ###################################################
+
+  ###################################################
+  # Firewall
+  ###################################################
+  networking.firewall.enable = true
+  networking.firewall.allowedTCPPorts = [ 22 80 443 ]  # SSH, HTTP, HTTPS
+  networking.firewall.allowedUDPPorts = []
+
+  ###################################################
+  # Som e multimídia
+  ###################################################
+  sound.enable = true
+  services.pipewire = {
+    enable = true;
+    pulse.enable = true;
+    alsa.enable = true;
+  };
+
+  ###################################################
+  # Flatpak                                         #
+  services.flatpak.enable = true                    #
+  ###################################################
+
+  ###################################################
+  # Pacotes do sistema (uso diário + dev)
+  ###################################################
+  environment.systemPackages = with pkgs; [
+
+    # Navegadores
+
+    firefox
+
+
+    # Ferramentas básicas
+
+    git
+    wget
+    curl
+    htop
+    unzip
+    zip
+    jq
+    fd
+    ripgrep
+    tree
+    fastfetch
+
+    #################################################
+    #           Dev                                 #
+                                                    #
+                                                    #
+    ### Ferramentas de desenvolvimento              #
+    neovim                                          #
+    vscode                                          #
+    docker                                          #
+    docker-compose                                  #
+    podman                                          #
+                                                    #
+                                                    #
+    ### Linguagens                                  #
+                                                    #
+    python3                                         #
+    python3Packages.pip                             #
+    nodejs                                          #
+    rustc                                           #
+    cargo                                           #
+    go                                              #
+    gcc                                             #
+    gdb                                             #
+    openjdk                                         #
+                                                    #
+                                                    #
+    ### Ferramentas extras dev                      #
+                                                    #
+    tmux                                            #
+    make                                            #
+    cmake                                           #
+    git-delta                                       #
+                                                    #
+                                                    #
+    #################################################
+  ];
+
+  ###################################################
+  # Terminal e shell
+  ###################################################
+  programs.zsh.enable = true
+  programs.zsh.ohMyZsh.enable = true
+
+  ###################################################
+  # Virtualização
+  ###################################################
+  virtualisation.docker.enable = true
+  virtualisation.podman.enable = true
+
+  ###################################################
+  # SSH Server
+  ###################################################
+  services.openssh.enable = true
+  services.openssh.permitRootLogin = "no"               # nunca permitir root direto
+  services.openssh.passwordAuthentication = false       # apenas login por chave
+  services.openssh.permitEmptyPasswords = false
+
+  ###################################################
+  # Atualizações automáticas seguras
+  ###################################################
+  system.autoUpgrade = {
+    enable = true;
+    allowReboot = false;
+  };
+
+  ###################################################
+  # Serviços desnecessários desligados
+  ###################################################
+  services.printing.enable = false                      # se não for usar impressora
+  services.cups.enable = false                      
+
+}
